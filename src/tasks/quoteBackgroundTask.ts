@@ -32,3 +32,10 @@ export async function isQuoteBackgroundTaskRegistered(): Promise<boolean> {
     return false;
   }
 }
+
+export async function unregisterQuoteBackgroundTask(): Promise<boolean> {
+  if (!(await TaskManager.isAvailableAsync())) return false;
+  if (!(await TaskManager.isTaskRegisteredAsync(BACKGROUND_TASK_NAME))) return true;
+  await BackgroundTask.unregisterTaskAsync(BACKGROUND_TASK_NAME);
+  return true;
+}

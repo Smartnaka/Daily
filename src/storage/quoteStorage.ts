@@ -7,6 +7,8 @@ const KEYS = {
   history: '@daily/quote-history',
   favorites: '@daily/favorite-quotes',
   lastFetch: '@daily/last-fetch',
+  backgroundSync: '@daily/background-sync-enabled',
+  themePreference: '@daily/theme-preference',
 } as const;
 
 let storageQueue: Promise<void> = Promise.resolve();
@@ -118,4 +120,24 @@ export function getLastFetchTime(): Promise<string | null> {
 
 export function saveLastFetchTime(timestamp: string): Promise<void> {
   return enqueueMutation(() => AsyncStorage.setItem(KEYS.lastFetch, JSON.stringify(timestamp)));
+}
+
+export function getBackgroundSyncEnabled(): Promise<boolean> {
+  return readJson<boolean>(KEYS.backgroundSync, true, (value): value is boolean => typeof value === 'boolean');
+}
+
+export function saveBackgroundSyncEnabled(enabled: boolean): Promise<void> {
+  return enqueueMutation(() => AsyncStorage.setItem(KEYS.backgroundSync, JSON.stringify(enabled)));
+}
+
+export type ThemePreference = 'system' | 'light' | 'dark';
+
+export function getThemePreference(): Promise<ThemePreference> {
+  return readJson<ThemePreference>(KEYS.themePreference, 'system', (value): value is ThemePreference =>
+    value === 'system' || value === 'light' || value === 'dark',
+  );
+}
+
+export function saveThemePreference(preference: ThemePreference): Promise<void> {
+  return enqueueMutation(() => AsyncStorage.setItem(KEYS.themePreference, JSON.stringify(preference)));
 }

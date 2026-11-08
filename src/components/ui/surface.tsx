@@ -6,7 +6,7 @@ import { Elevation, Radii, Spacing, type ThemeColors } from '@/constants/theme';
 type SurfaceProps = PropsWithChildren<ViewProps> & {
   colors: ThemeColors;
   elevated?: boolean;
-  padding?: keyof typeof Spacing;
+  padding?: keyof typeof Spacing | 'none';
 };
 
 export function Surface({ children, colors, elevated = false, padding = 'six', style, ...props }: SurfaceProps) {
@@ -17,7 +17,7 @@ export function Surface({ children, colors, elevated = false, padding = 'six', s
         {
           backgroundColor: colors.surface,
           borderColor: colors.border,
-          padding: Spacing[padding],
+          padding: padding === 'none' ? 0 : Spacing[padding],
         },
         elevated && Elevation.subtle,
         style,

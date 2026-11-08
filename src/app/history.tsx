@@ -74,7 +74,7 @@ function HistoryCard({
             hitSlop={8}
             onPress={onFavorite}
             style={({ pressed }) => [styles.action, { opacity: pressed ? 0.6 : 1 }]}>
-            <Text style={[styles.actionText, { color: favorite ? colors.accent : colors.muted }]}>
+            <Text style={[styles.actionText, { color: favorite ? colors.terracotta : colors.muted }]}>
               {favorite ? '♥ Saved' : '♡ Save'}
             </Text>
           </Pressable>

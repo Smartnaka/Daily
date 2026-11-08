@@ -25,7 +25,7 @@ export function QuoteCard({ quote, favorite, onFavorite, onShare, colors, serif 
           hitSlop={8}
           onPress={onFavorite}
           style={({ pressed }) => [styles.action, { opacity: pressed ? 0.5 : 1 }]}>
-          <Text style={[styles.actionText, { color: favorite ? colors.accent : colors.text }]}>
+          <Text style={[styles.actionText, { color: favorite ? colors.terracotta : colors.text }]}>
             {favorite ? '♥  Saved' : '♡  Save'}
           </Text>
         </Pressable>

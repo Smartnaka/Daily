@@ -43,7 +43,6 @@ function FavoriteCard({
           onPress={() => setExpanded((current) => !current)}
           onPressIn={pressIn}
           onPressOut={pressOut}>
-          <Text style={[styles.mark, { color: colors.accent }]}>“</Text>
           <Text style={[styles.quote, { color: colors.text, fontFamily: Fonts?.serif }]}>{quote.quote}</Text>
           <Text style={[styles.author, { color: colors.muted }]}>— {quote.author}</Text>
         </Pressable>
@@ -64,7 +63,7 @@ function FavoriteCard({
             hitSlop={8}
             onPress={onRemove}
             style={({ pressed }) => [styles.action, { opacity: pressed ? 0.6 : 1 }]}>
-            <Text style={[styles.actionIcon, { color: colors.accent }]}>♥</Text>
+            <Text style={[styles.actionIcon, { color: colors.terracotta }]}>♥</Text>
             <Text style={[styles.actionText, { color: colors.text }]}>Saved</Text>
           </Pressable>
           <Pressable
@@ -187,7 +186,6 @@ const styles = StyleSheet.create({
   summary: { ...Typography.bodyMedium, marginTop: Spacing.one },
   collection: { gap: Spacing.four },
   card: { borderRadius: Radii.medium, gap: Spacing.three },
-  mark: { fontSize: 52, lineHeight: 50, fontFamily: 'Georgia', marginBottom: Spacing.one },
   quote: { ...Typography.bodyMedium, fontSize: 21, lineHeight: 30 },
   author: { ...Typography.caption, marginTop: Spacing.four },
   details: { borderRadius: Radii.small, padding: Spacing.three, gap: Spacing.one },

@@ -50,7 +50,6 @@ function DiscoveryCard({
           onPress={() => setExpanded((current) => !current)}
           onPressIn={() => Animated.spring(scale, { toValue: 0.985, useNativeDriver: true }).start()}
           onPressOut={() => Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start()}>
-          <Text style={[styles.mark, { color: colors.accent }]}>“</Text>
           <Text style={[styles.quote, { color: colors.text, fontFamily: Fonts?.serif }]}>{quote.quote}</Text>
           <Text style={[styles.author, { color: colors.muted }]}>— {quote.author}</Text>
         </Pressable>
@@ -72,10 +71,10 @@ function DiscoveryCard({
             hitSlop={8}
             onPress={onFavorite}
             style={({ pressed }) => [styles.action, { opacity: pressed ? 0.6 : 1 }]}>
-            <Text style={[styles.actionIcon, { color: favorite ? colors.accent : colors.muted }]}>
+            <Text style={[styles.actionIcon, { color: favorite ? colors.terracotta : colors.muted }]}>
               {favorite ? '♥' : '♡'}
             </Text>
-            <Text style={[styles.actionText, { color: favorite ? colors.accent : colors.muted }]}>
+            <Text style={[styles.actionText, { color: favorite ? colors.terracotta : colors.muted }]}>
               {favorite ? 'Saved' : 'Save'}
             </Text>
           </Pressable>
@@ -244,7 +243,6 @@ const styles = StyleSheet.create({
   resultCount: { ...Typography.caption },
   collection: { gap: Spacing.four, marginTop: Spacing.three },
   card: { borderRadius: Radii.medium, gap: Spacing.three },
-  mark: { fontSize: 52, lineHeight: 50, fontFamily: 'Georgia', marginBottom: Spacing.one },
   quote: { ...Typography.bodyMedium, fontSize: 21, lineHeight: 30 },
   author: { ...Typography.caption, marginTop: Spacing.four },
   details: { borderRadius: Radii.small, padding: Spacing.three, gap: Spacing.one },

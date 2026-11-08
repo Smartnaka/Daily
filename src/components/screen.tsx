@@ -9,7 +9,7 @@ export function Screen({ children }: PropsWithChildren) {
   const { colors } = useDailyTheme();
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         {children}
       </ScrollView>
     </SafeAreaView>
@@ -23,6 +23,6 @@ export function Divider() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1 },
-  content: { paddingHorizontal: Spacing.five, paddingBottom: Spacing.seven, gap: Spacing.five },
+  content: { paddingHorizontal: Spacing.four, paddingTop: Spacing.two, paddingBottom: Spacing.seven, gap: Spacing.four },
   divider: { height: StyleSheet.hairlineWidth, width: '100%' },
 });

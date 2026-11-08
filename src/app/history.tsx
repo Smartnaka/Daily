@@ -4,7 +4,7 @@ import { Alert, Animated, Pressable, Share, StyleSheet, Text, View } from 'react
 
 import { Screen } from '@/components/screen';
 import { StateView } from '@/components/ui/state-view';
-import { StatusSurface, Surface } from '@/components/ui/surface';
+import { Surface } from '@/components/ui/surface';
 import { Fonts, Radii, Spacing, Typography, type ThemeColors } from '@/constants/theme';
 import { useDailyTheme } from '@/hooks/use-daily-theme';
 import { clearQuoteHistory, getFavoriteQuotes, getQuoteHistory, toggleFavorite } from '@/storage/quoteStorage';
@@ -154,7 +154,6 @@ export default function HistoryScreen() {
     <Screen>
       <View style={styles.header}>
         <View style={styles.headerCopy}>
-          <Text style={[styles.eyebrow, { color: colors.accent }]}>YOUR ARCHIVE</Text>
           <Text style={[styles.title, { color: colors.text }]}>History</Text>
           <Text style={[styles.subtitle, { color: colors.muted }]}>
             Revisit the thoughts that met you along the way.
@@ -170,13 +169,6 @@ export default function HistoryScreen() {
           </Pressable>
         )}
       </View>
-
-      <StatusSurface colors={colors}>
-        <Text style={[styles.summaryLabel, { color: colors.accent }]}>COLLECTED THOUGHTS</Text>
-        <Text style={[styles.summary, { color: colors.text }]}>
-          {history.length === 1 ? '1 quote saved' : `${history.length} quotes saved`}
-        </Text>
-      </StatusSurface>
 
       {loading ? (
         <StateView colors={colors} kind="loading" title="Opening your archive…" />

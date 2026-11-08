@@ -14,31 +14,28 @@ type Props = {
 
 export function QuoteCard({ quote, favorite, onFavorite, onShare, colors, serif }: Props) {
   return (
-    <View
-      accessibilityRole="summary"
-      style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-      <Text style={[styles.mark, { color: colors.accent }]}>“</Text>
+    <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
       <Text style={[styles.quote, { color: colors.text, fontFamily: serif }]}>{quote.quote}</Text>
       <Text style={[styles.author, { color: colors.muted }]}>— {quote.author}</Text>
-      <View style={styles.actions}>
+      <View style={[styles.actions, { borderTopColor: colors.border }]}>
         <Pressable
           accessibilityLabel={favorite ? 'Remove from favorites' : 'Add to favorites'}
           accessibilityRole="button"
           accessibilityState={{ selected: favorite }}
-          hitSlop={6}
+          hitSlop={8}
           onPress={onFavorite}
-          style={({ pressed }) => [styles.action, { opacity: pressed ? 0.6 : 1 }]}>
-          <Text style={[styles.actionIcon, { color: favorite ? colors.accent : colors.muted }]}>{favorite ? '♥' : '♡'}</Text>
-          <Text style={[styles.actionLabel, { color: colors.muted }]}>{favorite ? 'Saved' : 'Save'}</Text>
+          style={({ pressed }) => [styles.action, { opacity: pressed ? 0.5 : 1 }]}>
+          <Text style={[styles.actionText, { color: favorite ? colors.accent : colors.text }]}>
+            {favorite ? '♥  Saved' : '♡  Save'}
+          </Text>
         </Pressable>
         <Pressable
           accessibilityLabel="Share quote"
           accessibilityRole="button"
-          hitSlop={6}
+          hitSlop={8}
           onPress={onShare}
-          style={({ pressed }) => [styles.action, { opacity: pressed ? 0.6 : 1 }]}>
-          <Text style={[styles.actionIcon, { color: colors.muted }]}>↗</Text>
-          <Text style={[styles.actionLabel, { color: colors.muted }]}>Share</Text>
+          style={({ pressed }) => [styles.action, { opacity: pressed ? 0.5 : 1 }]}>
+          <Text style={[styles.actionText, { color: colors.accent }]}>Share</Text>
         </Pressable>
       </View>
     </View>
@@ -46,12 +43,10 @@ export function QuoteCard({ quote, favorite, onFavorite, onShare, colors, serif 
 }
 
 const styles = StyleSheet.create({
-  card: { borderWidth: 1, borderRadius: Radii.large, padding: Spacing.seven, minHeight: 320, justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 18, shadowOffset: { width: 0, height: 8 }, elevation: 2 },
-  mark: { fontSize: 62, lineHeight: 60, fontFamily: 'Georgia', marginBottom: Spacing.two },
+  card: { borderWidth: StyleSheet.hairlineWidth, borderRadius: Radii.medium, padding: Spacing.five },
   quote: { ...Typography.quote },
-  author: { ...Typography.caption, marginTop: Spacing.six, letterSpacing: 0.3 },
-  actions: { flexDirection: 'row', gap: Spacing.seven, marginTop: Spacing.seven, paddingTop: Spacing.five, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#E6E2D9' },
-  action: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two, minHeight: 44 },
-  actionIcon: { fontSize: 24 },
-  actionLabel: { ...Typography.label },
+  author: { ...Typography.body, marginTop: Spacing.five },
+  actions: { flexDirection: 'row', gap: Spacing.six, marginTop: Spacing.six, paddingTop: Spacing.three, borderTopWidth: StyleSheet.hairlineWidth },
+  action: { minHeight: 44, justifyContent: 'center' },
+  actionText: { ...Typography.label },
 });

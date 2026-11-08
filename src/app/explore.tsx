@@ -4,7 +4,7 @@ import { Animated, Pressable, Share, StyleSheet, Text, View } from 'react-native
 
 import { Screen } from '@/components/screen';
 import { StateView } from '@/components/ui/state-view';
-import { StatusSurface, Surface } from '@/components/ui/surface';
+import { Surface } from '@/components/ui/surface';
 import { Button } from '@/components/ui/button';
 import { TextField } from '@/components/ui/text-field';
 import { Fonts, Radii, Spacing, Typography, type ThemeColors } from '@/constants/theme';
@@ -152,7 +152,6 @@ export default function ExploreScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.eyebrow, { color: colors.accent }]}>BEYOND TODAY</Text>
         <Text style={[styles.title, { color: colors.text }]}>Explore</Text>
         <Text style={[styles.subtitle, { color: colors.muted }]}>
           Find a thought that meets you where you are.
@@ -169,13 +168,6 @@ export default function ExploreScreen() {
         returnKeyType="search"
         value={search}
       />
-
-      <StatusSurface colors={colors}>
-        <Text style={[styles.summaryLabel, { color: colors.accent }]}>REAL-TIME DISCOVERY</Text>
-        <Text style={[styles.summary, { color: colors.text }]}>
-          {search ? `${results.length} matching ${results.length === 1 ? 'quote' : 'quotes'}` : 'Fresh thoughts from the quote library'}
-        </Text>
-      </StatusSurface>
 
       {loading ? (
         <StateView colors={colors} kind="loading" title="Finding a few good thoughts…" />

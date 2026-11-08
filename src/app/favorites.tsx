@@ -4,7 +4,7 @@ import { Animated, Pressable, Share, StyleSheet, Text, View } from 'react-native
 
 import { Screen } from '@/components/screen';
 import { StateView } from '@/components/ui/state-view';
-import { StatusSurface, Surface } from '@/components/ui/surface';
+import { Surface } from '@/components/ui/surface';
 import { Fonts, Radii, Spacing, Typography, type ThemeColors } from '@/constants/theme';
 import { useDailyTheme } from '@/hooks/use-daily-theme';
 import { getFavoriteQuotes, toggleFavorite } from '@/storage/quoteStorage';
@@ -130,19 +130,11 @@ export default function FavoritesScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.eyebrow, { color: colors.accent }]}>KEPT CLOSE</Text>
         <Text style={[styles.title, { color: colors.text }]}>Favorites</Text>
         <Text style={[styles.subtitle, { color: colors.muted }]}>
           The words you chose to carry with you.
         </Text>
       </View>
-
-      <StatusSurface colors={colors}>
-        <Text style={[styles.summaryLabel, { color: colors.accent }]}>YOUR COLLECTION</Text>
-        <Text style={[styles.summary, { color: colors.text }]}>
-          {favorites.length === 1 ? '1 favorite quote' : `${favorites.length} favorite quotes`}
-        </Text>
-      </StatusSurface>
 
       {loading ? (
         <StateView colors={colors} kind="loading" title="Opening your collection…" />

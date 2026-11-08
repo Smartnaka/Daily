@@ -33,7 +33,7 @@ export function StateView({
 }
 
 const styles = StyleSheet.create({
-  container: { alignItems: 'center', justifyContent: 'center', gap: Spacing.four, paddingVertical: Spacing.ten, paddingHorizontal: Spacing.six },
+  container: { alignItems: 'center', justifyContent: 'center', gap: Spacing.three, paddingVertical: Spacing.eight, paddingHorizontal: Spacing.six },
   title: { ...Typography.bodyMedium, textAlign: 'center' },
   message: { ...Typography.caption, textAlign: 'center', maxWidth: 300 },
 });

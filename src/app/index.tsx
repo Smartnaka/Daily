@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { QuoteCard } from '@/components/quote-card';
 import { StateView } from '@/components/ui/state-view';
 import { StatusSurface } from '@/components/ui/surface';
-import { Fonts, Motion, Spacing, Typography } from '@/constants/theme';
+import { Fonts, Motion, Radii, Spacing, Typography } from '@/constants/theme';
 import { useDailyTheme } from '@/hooks/use-daily-theme';
 import { ensureDailyQuote } from '@/services/quoteManager';
 import { getCurrentQuote, getFavoriteQuotes, getLastFetchTime, toggleFavorite } from '@/storage/quoteStorage';
@@ -95,10 +95,8 @@ export default function TodayScreen() {
       </View>
 
       <View style={styles.intro}>
-        <Text style={[styles.title, { color: colors.text, fontFamily: Fonts?.serif }]}>
-          A thought to carry{'\n'}with you today.
-        </Text>
-        <Text style={[styles.subtitle, { color: colors.muted }]}>Pause. Read. Let it settle.</Text>
+        <Text style={[styles.title, { color: colors.text }]}>Today&apos;s quote</Text>
+        <Text style={[styles.subtitle, { color: colors.muted }]}>A little perspective for your day.</Text>
       </View>
 
       {loading && !quote ? (
@@ -154,23 +152,21 @@ export default function TodayScreen() {
         style={({ pressed }) => [styles.refresh, { borderColor: colors.border, opacity: pressed || refreshing ? 0.65 : 1 }]}>
         {refreshing ? <ActivityIndicator size="small" color={colors.accent} /> : <Text style={[styles.refreshText, { color: colors.accent }]}>Refresh today&apos;s quote ↗</Text>}
       </Pressable>
-      <Text style={[styles.note, { color: colors.muted }]}>
-        Quotes refresh automatically when your device allows background work.
-      </Text>
+      <Text style={[styles.note, { color: colors.muted }]}>Background updates depend on the operating system.</Text>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, paddingHorizontal: Spacing.five, paddingTop: Spacing.four, paddingBottom: Spacing.seven, gap: Spacing.five },
+  root: { flex: 1, paddingHorizontal: Spacing.four, paddingTop: Spacing.two, paddingBottom: Spacing.four, gap: Spacing.four },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   brand: { ...Typography.title },
   greeting: { ...Typography.caption, marginTop: Spacing.one },
   date: { ...Typography.caption, marginTop: Spacing.two },
-  intro: { gap: Spacing.two, marginTop: Spacing.four },
-  title: { ...Typography.display },
+  intro: { gap: Spacing.one, marginTop: Spacing.two },
+  title: { ...Typography.title },
   subtitle: { ...Typography.body },
-  loadingCard: { minHeight: 320, borderWidth: 1, borderRadius: 24, justifyContent: 'center', alignItems: 'center', gap: Spacing.four },
+  loadingCard: { minHeight: 240, borderWidth: StyleSheet.hairlineWidth, borderRadius: Radii.medium, justifyContent: 'center', alignItems: 'center', gap: Spacing.three },
   loadingText: { ...Typography.body },
   statusDot: { width: 8, height: 8, borderRadius: 8, marginRight: Spacing.two },
   statusRow: { flexDirection: 'row', alignItems: 'center' },

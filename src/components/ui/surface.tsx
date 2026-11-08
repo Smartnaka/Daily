@@ -37,6 +37,6 @@ export function StatusSurface({ children, colors, ...props }: PropsWithChildren<
 }
 
 const styles = StyleSheet.create({
-  base: { borderWidth: 1, borderRadius: Radii.large },
-  status: { borderRadius: Radii.medium, padding: Spacing.four },
+  base: { borderWidth: StyleSheet.hairlineWidth, borderRadius: Radii.medium },
+  status: { borderRadius: 0, paddingVertical: Spacing.three, paddingHorizontal: 0 },
 });

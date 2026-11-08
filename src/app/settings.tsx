@@ -6,7 +6,7 @@ import { Alert, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { Screen } from '@/components/screen';
 import { Button } from '@/components/ui/button';
 import { StateView } from '@/components/ui/state-view';
-import { StatusSurface, Surface } from '@/components/ui/surface';
+import { Surface } from '@/components/ui/surface';
 import { Radii, Spacing, Typography, type ThemeColors } from '@/constants/theme';
 import { useDailyTheme } from '@/hooks/use-daily-theme';
 import { ensureDailyQuote } from '@/services/quoteManager';
@@ -197,17 +197,9 @@ export default function SettingsScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.eyebrow, { color: colors.accent }]}>MAKE IT YOURS</Text>
         <Text style={[styles.title, { color: colors.text }]}>Settings</Text>
         <Text style={[styles.subtitle, { color: colors.muted }]}>Keep Daily quiet, useful, and yours.</Text>
       </View>
-
-      <StatusSurface colors={colors}>
-        <Text style={[styles.summaryLabel, { color: colors.accent }]}>DAILY STATUS</Text>
-        <Text style={[styles.summary, { color: colors.text }]}>
-          {lastSync ? `Last synced ${formatDate(lastSync, { month: 'short', day: 'numeric' })}` : 'Waiting for your first sync'}
-        </Text>
-      </StatusSurface>
 
       <Section colors={colors} title="Appearance">
         <View style={styles.themeControl}>

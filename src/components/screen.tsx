@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Spacing } from '@/constants/theme';
 import { useDailyTheme } from '@/hooks/use-daily-theme';
 
 export function Screen({ children }: PropsWithChildren) {
@@ -22,6 +23,6 @@ export function Divider() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1 },
-  content: { paddingHorizontal: 22, paddingBottom: 36, gap: 18 },
+  content: { paddingHorizontal: Spacing.five, paddingBottom: Spacing.seven, gap: Spacing.five },
   divider: { height: StyleSheet.hairlineWidth, width: '100%' },
 });

@@ -38,3 +38,26 @@ export async function fetchRandomQuote(existingIds: number[] = []): Promise<Quot
   }
   throw new Error('Unable to fetch a new quote');
 }
+
+export async function fetchDiscoveryQuotes(count = 6, existingIds: number[] = []): Promise<Quote[]> {
+  const quotes: Quote[] = [];
+  const ids = [...existingIds];
+
+  for (let index = 0; index < count; index += 1) {
+    try {
+      const quote = await fetchRandomQuote(ids);
+      if (!ids.includes(quote.id)) {
+        quotes.push(quote);
+        ids.push(quote.id);
+      }
+    } catch (error) {
+      if (__DEV__) console.warn('Could not fetch a discovery quote', error);
+    }
+  }
+
+  if (quotes.length === 0) {
+    throw new Error('Unable to load discovery quotes');
+  }
+
+  return quotes;
+}

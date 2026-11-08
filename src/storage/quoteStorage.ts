@@ -81,6 +81,10 @@ export function saveQuoteToHistory(quote: Quote): Promise<void> {
   });
 }
 
+export function clearQuoteHistory(): Promise<void> {
+  return enqueueMutation(() => AsyncStorage.removeItem(KEYS.history));
+}
+
 export function saveQuoteAndFetchTime(quote: Quote): Promise<void> {
   return enqueueMutation(() => saveQuoteSnapshot(quote));
 }

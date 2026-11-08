@@ -1,6 +1,6 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, Pressable, SafeAreaView, Share, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, RefreshControl, SafeAreaView, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 
 import { QuoteCard } from '@/components/quote-card';
@@ -24,6 +24,7 @@ export default function TodayScreen() {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [favorite, setFavorite] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<QuoteSyncFailure | null>(null);
 
   const load = useCallback(async () => {
@@ -49,6 +50,15 @@ export default function TodayScreen() {
     }
   }, []);
 
+  const refresh = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await load();
+    } finally {
+      setRefreshing(false);
+    }
+  }, [load]);
+
   useFocusEffect(useCallback(() => {
     load().catch(() => undefined);
   }, [load]));
@@ -67,40 +77,50 @@ export default function TodayScreen() {
 
   return (
     <SafeAreaView style={[styles.root, { backgroundColor: colors.background }]}>
-      <View style={styles.header}>
-        <Text style={[styles.brand, { color: colors.text }]}>Daily</Text>
-        <Pressable accessibilityLabel="Open settings" accessibilityRole="button" onPress={() => router.push('/settings')} hitSlop={10}>
-          <SymbolView tintColor={colors.muted} name={{ ios: 'gearshape', android: 'settings', web: 'settings' }} size={22} />
-        </Pressable>
-      </View>
-      <Text style={[styles.date, { color: colors.muted }]}>
-        {formatDate(new Date().toISOString(), { weekday: 'long', month: 'long', day: 'numeric' })}
-      </Text>
-
-      {loading && !quote ? (
-        <View style={styles.loading}>
-          <ActivityIndicator color={colors.accent} />
+      <ScrollView
+        contentContainerStyle={styles.content}
+        alwaysBounceVertical
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.accent} />}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.header}>
+          <Text style={[styles.brand, { color: colors.text }]}>Daily</Text>
+          <Pressable accessibilityLabel="Open settings" accessibilityRole="button" onPress={() => router.push('/settings')} hitSlop={10}>
+            <SymbolView tintColor={colors.muted} name={{ ios: 'gearshape', android: 'settings', web: 'settings' }} size={22} />
+          </Pressable>
         </View>
-      ) : quote ? (
-        <QuoteCard quote={quote} favorite={favorite} onFavorite={save} onShare={share} colors={colors} serif={Fonts?.serif} />
-      ) : (
-        <StateView
-          colors={colors}
-          kind="error"
-          title="Today’s quote is taking a moment."
-          message={error ? getErrorMessage(error) : 'Try again when you are ready.'}
-          actionLabel="Try again"
-          onAction={load}
-        />
-      )}
+        <Text style={[styles.date, { color: colors.muted }]}>
+          {formatDate(new Date().toISOString(), { weekday: 'long', month: 'long', day: 'numeric' })}
+        </Text>
+
+        <View style={styles.quoteArea}>
+          {loading && !quote ? (
+            <View style={styles.loading}>
+              <ActivityIndicator color={colors.accent} />
+            </View>
+          ) : quote ? (
+            <QuoteCard quote={quote} favorite={favorite} onFavorite={save} onShare={share} colors={colors} serif={Fonts?.serif} />
+          ) : (
+            <StateView
+              colors={colors}
+              kind="error"
+              title="Today’s quote is taking a moment."
+              message={error ? getErrorMessage(error) : 'Try again when you are ready.'}
+              actionLabel="Try again"
+              onAction={load}
+            />
+          )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, paddingHorizontal: Spacing.four, paddingTop: Spacing.two, paddingBottom: Spacing.four, gap: Spacing.three },
+  root: { flex: 1 },
+  content: { flexGrow: 1, paddingHorizontal: Spacing.four, paddingTop: Spacing.five, paddingBottom: Spacing.ten },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   brand: { ...Typography.title },
-  date: { ...Typography.caption, marginTop: Spacing.two },
-  loading: { minHeight: 280, justifyContent: 'center', alignItems: 'center' },
+  date: { ...Typography.caption, marginTop: Spacing.three },
+  quoteArea: { width: '100%', maxWidth: 560, alignSelf: 'center', marginTop: Spacing.eight },
+  loading: { minHeight: 320, justifyContent: 'center', alignItems: 'center' },
 });

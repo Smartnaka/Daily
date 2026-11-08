@@ -6,8 +6,10 @@ import { ensureDailyQuote } from '@/services/quoteManager';
 
 TaskManager.defineTask(BACKGROUND_TASK_NAME, async () => {
   try {
-    await ensureDailyQuote();
-    return BackgroundTask.BackgroundTaskResult.Success;
+    const result = await ensureDailyQuote();
+    return result.status === 'failed'
+      ? BackgroundTask.BackgroundTaskResult.Failed
+      : BackgroundTask.BackgroundTaskResult.Success;
   } catch (error) {
     if (__DEV__) console.warn('Background quote task failed', error);
     return BackgroundTask.BackgroundTaskResult.Failed;

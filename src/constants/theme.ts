@@ -29,14 +29,46 @@ export const Colors = {
   },
 } as const;
 
+export type ThemeColors = (typeof Colors)[keyof typeof Colors];
+
 export const Fonts = Platform.select({
   ios: { sans: 'System', serif: 'Georgia', rounded: 'System', mono: 'Menlo' },
   android: { sans: 'sans-serif', serif: 'serif', rounded: 'sans-serif-medium', mono: 'monospace' },
   default: { sans: 'normal', serif: 'serif', rounded: 'normal', mono: 'monospace' },
 });
 
+export const Typography = {
+  display: { fontSize: 34, lineHeight: 40, fontWeight: '600' as const, letterSpacing: -0.8 },
+  title: { fontSize: 28, lineHeight: 34, fontWeight: '600' as const, letterSpacing: -0.5 },
+  quote: { fontSize: 29, lineHeight: 38, fontWeight: '400' as const, letterSpacing: -0.5 },
+  body: { fontSize: 16, lineHeight: 24, fontWeight: '400' as const },
+  bodyMedium: { fontSize: 16, lineHeight: 24, fontWeight: '500' as const },
+  caption: { fontSize: 13, lineHeight: 18, fontWeight: '400' as const, letterSpacing: 0.1 },
+  label: { fontSize: 13, lineHeight: 18, fontWeight: '600' as const, letterSpacing: 0.1 },
+  overline: { fontSize: 11, lineHeight: 14, fontWeight: '600' as const, letterSpacing: 1.1 },
+} as const;
+
 export type Theme = keyof typeof Colors;
 export type ThemeColor = keyof typeof Colors.light;
-export const Spacing = { half: 2, one: 4, two: 8, three: 16, four: 24, five: 32, six: 64 } as const;
+export const Spacing = {
+  hairline: 1,
+  half: 2,
+  one: 4,
+  two: 8,
+  three: 12,
+  four: 16,
+  five: 20,
+  six: 24,
+  seven: 32,
+  eight: 40,
+  nine: 48,
+  ten: 64,
+} as const;
+export const Radii = { small: 10, medium: 16, large: 24, pill: 999 } as const;
+export const Elevation = {
+  none: { shadowOpacity: 0, elevation: 0 },
+  subtle: { shadowColor: '#000000', shadowOpacity: 0.06, shadowRadius: 16, shadowOffset: { width: 0, height: 6 }, elevation: 2 },
+} as const;
+export const Motion = { fast: 160, standard: 240, slow: 360 } as const;
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;

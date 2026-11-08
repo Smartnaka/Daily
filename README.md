@@ -1,56 +1,67 @@
-# Welcome to your Expo app 👋
+# Daily
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Daily is a polished Expo/React Native quote reader. It fetches a quote from the
+DummyJSON Quotes API, caches it on-device, keeps a history and favorites list,
+and asks the operating system to refresh the quote in the background.
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Run locally
 
 ```bash
-npm run reset-project
+yarn install
+yarn start
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Open the project in an iOS simulator, Android emulator, or a development build.
+The app also renders in Expo Go, but Expo Go does not provide reliable native
+background execution. Use a development or standalone build to test scheduling.
 
-### Other setup steps
+Useful checks:
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```bash
+yarn typecheck
+yarn lint
+yarn doctor
+```
 
-## Learn more
+## Background tasks
 
-To learn more about developing your project with Expo, look at the following resources:
+The task is defined at module scope in
+`src/tasks/quoteBackgroundTask.ts` and imported before navigation in
+`src/app/_layout.tsx`. It uses `expo-background-task` with a 12-hour minimum
+interval. The interval is a scheduling hint: iOS and Android decide when the
+task actually runs, and neither platform promises an exact time.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+On Android, build and install a development build, open the app once, then
+inspect scheduled jobs with:
 
-## Join the community
+```bash
+adb shell dumpsys jobscheduler
+```
 
-Join our community of developers creating universal apps.
+You can use the Expo background-task testing controls where supported, or
+temporarily trigger the worker from a development-only test harness. On iOS,
+use a development/standalone build on a physical device and exercise the
+background refresh through Xcode's background task simulation. Background
+execution is not dependable on a simulator and may be throttled by the OS.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## EAS builds
+
+Install and authenticate with EAS, then create a build:
+
+```bash
+yarn global add eas-cli
+eas build:configure
+eas build --profile development --platform android
+eas build --profile development --platform ios
+```
+
+Use a preview or production profile for distributable builds. Native background
+execution requires the generated native configuration from the build; it is not
+equivalent to a JavaScript timer and does not require notifications.
+
+## Storage and offline behavior
+
+`src/storage/quoteStorage.ts` owns AsyncStorage access and safely falls back
+when data is missing or corrupted. A valid cached quote remains visible when
+the API is unavailable, times out, or returns malformed data. Technical details
+are logged only in development.

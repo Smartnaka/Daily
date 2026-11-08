@@ -7,9 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "daily",
     "userInterfaceStyle": "automatic",
-    "ios": {
-      "icon": "./assets/expo.icon"
-    },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -25,6 +22,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-background-task",
       [
         "expo-splash-screen",
         {
@@ -34,6 +32,14 @@
         }
       ]
     ],
+    "ios": {
+      "icon": "./assets/expo.icon",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "fetch"
+        ]
+      }
+    },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

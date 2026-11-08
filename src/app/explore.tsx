@@ -36,32 +36,19 @@ function DiscoveryCard({
   onFavorite: () => void;
   onShare: () => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
   const [scale] = useState(() => new Animated.Value(1));
 
   return (
     <Animated.View style={{ transform: [{ scale }] }}>
       <Surface colors={colors} padding="five" style={styles.card}>
         <Pressable
-          accessibilityHint="Double tap to show or hide quote actions"
           accessibilityLabel={`Quote by ${quote.author}`}
           accessibilityRole="button"
-          accessibilityState={{ expanded }}
-          onPress={() => setExpanded((current) => !current)}
           onPressIn={() => Animated.spring(scale, { toValue: 0.985, useNativeDriver: true }).start()}
           onPressOut={() => Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start()}>
           <Text style={[styles.quote, { color: colors.text, fontFamily: Fonts?.serif }]}>{quote.quote}</Text>
           <Text style={[styles.author, { color: colors.muted }]}>— {quote.author}</Text>
         </Pressable>
-
-        {expanded && (
-          <View style={[styles.details, { backgroundColor: colors.backgroundElement }]}>
-            <Text style={[styles.detailLabel, { color: colors.accent }]}>DISCOVERED QUOTE</Text>
-            <Text style={[styles.detailText, { color: colors.muted }]}>
-              Save it for later or share it with someone who needs it.
-            </Text>
-          </View>
-        )}
 
         <View style={[styles.actions, { borderTopColor: colors.border }]}>
           <Pressable
@@ -152,9 +139,7 @@ export default function ExploreScreen() {
     <Screen>
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>Explore</Text>
-        <Text style={[styles.subtitle, { color: colors.muted }]}>
-          Find a thought that meets you where you are.
-        </Text>
+        <Text style={[styles.subtitle, { color: colors.muted }]}>Search the quotes you want to keep.</Text>
       </View>
 
       <TextField
@@ -195,9 +180,8 @@ export default function ExploreScreen() {
           }}>
           <View style={styles.resultsHeader}>
             <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              {search ? 'Search results' : 'A thought to consider'}
+              {search ? 'Search results' : 'Browse quotes'}
             </Text>
-            <Text style={[styles.resultCount, { color: colors.muted }]}>{results.length}</Text>
           </View>
           <View style={styles.collection}>
             {results.map((quote) => (
@@ -245,9 +229,6 @@ const styles = StyleSheet.create({
   card: { borderRadius: Radii.medium, gap: Spacing.three },
   quote: { ...Typography.bodyMedium, fontSize: 21, lineHeight: 30 },
   author: { ...Typography.caption, marginTop: Spacing.four },
-  details: { borderRadius: Radii.small, padding: Spacing.three, gap: Spacing.one },
-  detailLabel: { ...Typography.overline },
-  detailText: { ...Typography.caption },
   actions: { flexDirection: 'row', gap: Spacing.six, borderTopWidth: StyleSheet.hairlineWidth, paddingTop: Spacing.three },
   action: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two, minHeight: 44 },
   actionIcon: { fontSize: 21 },
